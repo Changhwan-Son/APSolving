@@ -75,8 +75,8 @@ public class SWEA_5656_벽돌깨기 {
 	}
 
 	static void down(int[][] map) {
+		Stack<Integer> stack = new Stack<>();
 		for (int c = 0; c < W; c++) {
-			Stack<Integer> stack = new Stack<>();
 			for(int r = 0 ; r < H ; r++) {
 				if(map[r][c] != 0)
 					stack.push(map[r][c]);
