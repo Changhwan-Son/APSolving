@@ -5,42 +5,67 @@ import java.util.StringTokenizer;
 
 public class fail_SWEA_3238_이항계수구하기 {
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
 
-		int T = Integer.parseInt(in.readLine());
-		for (int tc = 1; tc <= T; tc++) {
-			StringTokenizer st = new StringTokenizer(in.readLine());
+		int testCase = Integer.parseInt(br.readLine());
+		for (int t = 1; t <= testCase; t++) {
+			st = new StringTokenizer(br.readLine());
 			long N = Long.parseLong(st.nextToken());
-			long R = Long.parseLong(st.nextToken());
-			long P = Long.parseLong(st.nextToken());
+			long K = Long.parseLong(st.nextToken());
+			long P = Integer.parseInt(st.nextToken());
 
-			System.out.println("#" + tc + " " + nCr(N % P, R % P, P));
+			long[] fact = new long[(int) P];
+			long rst = 1;
+
+			fact[0] = 1;
+			for (int i = 1; i < P; i++) {
+				fact[i] = fact[i - 1] * i;
+				fact[i] %= P;
+			}
+
+			while (N != 0 || K != 0) {
+				int n = (int) (N % P);
+				int k = (int) (K % P);
+
+				if (n < k) {
+					rst = 0;
+					break;
+				}
+
+				long a = (rst * fact[n]) % P;
+				long b = pow((fact[n - k] * fact[k]) % P, P - 2, P) % P;
+
+				rst = (a * b) % P;
+
+				N /= P;
+				K /= P;
+			}
+
+			sb.append("#").append(t).append(" ").append(rst).append("\n");
 		}
+		bw.write(sb.toString());
+		bw.flush();
+		br.close();
+		bw.close();
+
 	}
 
-	static long nCr(long n, long r, long p) {
-		if (r == 0)
-			return 1L;
+	public static long pow(long x, long y, long P) {
+		if (y == 0)
+			return 1;
+		else if (y == 1)
+			return x;
 
-		long[] fac = new long[(int) (n + 1)];
-		fac[0] = 1;
-
-		for (int i = 1; i <= n; i++)
-			fac[i] = fac[i - 1] * i % p;
-
-		return (fac[(int) n] * power(fac[(int) r], p - 2, p) % p * power(fac[(int) (n - r)], p - 2, p) % p) % p;
-	}
-
-	static long power(long x, long y, long p) {
-		long res = 1L;
-		x = x % p;
-
-		while (y > 0) {
-			if (y % 2 == 1)
-				res = (res * x) % p;
-			y = y >> 1;
-			x = (x * x) % p;
+		if (y % 2 == 0) {
+			long temp = pow(x, y / 2, P);
+			return (temp * temp) % P;
 		}
-		return res;
+		long temp = pow(x, y - 1, P) % P;
+
+		return (temp * x) % P;
 	}
+
 }
