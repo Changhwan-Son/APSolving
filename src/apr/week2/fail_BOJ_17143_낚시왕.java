@@ -3,7 +3,7 @@ package apr.week2;
 import java.io.*;
 import java.util.*;
 
-public class BOJ_17143_낚시왕 {
+public class fail_BOJ_17143_낚시왕 {
 	static class Shark {
 		int r, c, s, d, z;
 
