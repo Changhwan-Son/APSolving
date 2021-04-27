@@ -42,7 +42,6 @@ class PRO_메뉴리뉴얼_kakao {
 				list[len] = new ArrayList<>();
 				list[len].add(key);
 			}
-			Collections.sort(list[value]);
 		}
 
 		for (int i = 0; i < list.length; i++) {
