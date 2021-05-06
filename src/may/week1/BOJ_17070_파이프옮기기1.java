@@ -40,8 +40,8 @@ public class BOJ_17070_파이프옮기기1 {
 				dfs(r + 1, c, 1, 0);
 			}
 		}
+		
 		if (cm == 1) {
-
 			if (c + 1 < N && map[r][c + 1] != 1) {
 				dfs(r, c + 1, 0, 1);
 			}
