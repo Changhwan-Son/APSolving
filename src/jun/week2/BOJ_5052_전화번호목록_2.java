@@ -2,7 +2,7 @@ package jun.week2;
 
 import java.io.*;
 import java.util.Arrays;
-import java.util.Comparator;
+
 
 public class BOJ_5052_전화번호목록_2 {
 
