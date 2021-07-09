@@ -5,6 +5,21 @@ import java.util.*;
 
 public class BOJ_18352_특정거리의도시찾기 {
 
+	static class Node implements Comparable<Node> {
+		int weight;
+		int index;
+
+		public Node(int weight, int index) {
+			this.weight = weight;
+			this.index = index;
+		}
+
+		@Override
+		public int compareTo(Node o) {
+			return Integer.compare(this.weight, o.weight);
+		}
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(in.readLine());
@@ -16,37 +31,45 @@ public class BOJ_18352_특정거리의도시찾기 {
 
 		int[] distance = new int[N + 1];
 		boolean[] check = new boolean[N + 1];
-		ArrayList<ArrayList<Integer>> adjList = new ArrayList<>();
-		for(int i = 0 ; i < N + 1; i++)
-			adjList.add(new ArrayList<>());
-		
+		ArrayList<Node>[] nodeList = new ArrayList[N + 1];
+		for (int i = 1; i <= N; i++) {
+			nodeList[i] = new ArrayList<>();
+		}
+
+		PriorityQueue<Node> pq = new PriorityQueue<>();
+
 		for (int i = 0; i < M; i++) {
 			st = new StringTokenizer(in.readLine());
 			int A = Integer.parseInt(st.nextToken());
 			int B = Integer.parseInt(st.nextToken());
-			adjList.get(A).add(B);
+			nodeList[A].add(new Node(1, B));
 		}
 
 		Arrays.fill(distance, Integer.MAX_VALUE);
 		distance[X] = 0;
+		pq.add(new Node(0, X));
 
-		for (int i = 1; i <= N; i++) {
-			int min = Integer.MAX_VALUE;
-			int current = 0;
+		while (!pq.isEmpty()) {
 
-			for (int j = 1; j <= N; j++) {
-				if (!check[j] && min > distance[j]) {
-					min = distance[j];
-					current = j;
+			Node cur = pq.poll();
+			int weight = cur.weight;
+			int index = cur.index;
+
+			if (distance[index] < weight)
+				continue;
+
+			check[index] = true;
+
+			for (int i = 0; i < nodeList[index].size(); i++) {
+				int weight2 = nodeList[index].get(i).weight;
+				int index2 = nodeList[index].get(i).index;
+
+				if (distance[index2] > weight2 + weight) {
+					distance[index2] = weight2 + weight;
+					pq.add(new Node(distance[index2], index2));
 				}
 			}
-			check[current] = true;
 
-			for (int j = 1; j <= N; j++) {
-				if (!check[j] && adjList.get(current).contains(j) && distance[j] > min + 1) {
-					distance[j] = min + 1;
-				}
-			}
 		}
 
 		StringBuilder sb = new StringBuilder();
