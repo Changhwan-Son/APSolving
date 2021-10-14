@@ -16,14 +16,14 @@ public class BOJ_16194_카드구매하기2 {
 			price[i] = Integer.parseInt(st.nextToken());
 			dp[i] = price[i];
 		}
-		
-		for(int i = 2 ; i <= N; i++) {
-			for(int j = 1; j < i; j++) {
-				if(dp[i] > dp[i-j] + price[j])
-					dp[i] = dp[i-j] + price[j];
+
+		for (int i = 2; i <= N; i++) {
+			for (int j = 1; j < i; j++) {
+				if (dp[i] > dp[i - j] + price[j])
+					dp[i] = dp[i - j] + price[j];
 			}
 		}
-		
+
 		System.out.println(dp[N]);
 	}
 }
